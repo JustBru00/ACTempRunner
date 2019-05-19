@@ -77,12 +77,13 @@ public class RelayManager {
 			}
 		} else {
 			// Runtime counting
-			if ((Duration.between(startTime, Instant.now()).getSeconds() / 60) > currentRuntimeSetting) {
+			if (currentRuntimeSetting == 0 ||(Duration.between(startTime, Instant.now()).getSeconds() / 60) > currentRuntimeSetting) {
 				// Done with the runtime
 				System.out.println("Runtime Complete! Ran for "
 						+ Duration.between(startTime, Instant.now()).getSeconds() / 60 + " minutes(s)");
 				airCondRelay.setState(SimplePinState.ON);
 				runtimeComplete = true;
+				startTime = Instant.now();
 			} else {
 				// Not done this section
 				System.out.println("Runtime in progress... "
