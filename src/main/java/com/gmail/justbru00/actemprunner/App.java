@@ -3,7 +3,6 @@ package com.gmail.justbru00.actemprunner;
 import java.io.IOException;
 
 import com.mashape.unirest.http.Unirest;
-import com.pi4j.io.gpio.RaspiPin;
 
 /**
  * ACTempRunner
