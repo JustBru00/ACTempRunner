@@ -69,7 +69,7 @@ public class RelayManager {
 				currentRuntimeSetting = -1;
 			} else {
 				// Not done this section
-				System.out.println("Offtime in progress... " + ((Duration.between(startTime, Instant.now()).getSeconds() / 60)- currentOfftimeSetting) + " minute(s) remain.");
+				System.out.println("Offtime in progress... " + (currentOfftimeSetting - (Duration.between(startTime, Instant.now()).getSeconds() / 60)) + " minute(s) remain.");
 				airCondRelay.setState(SimplePinState.ON);
 			}
 		} else {
@@ -81,7 +81,7 @@ public class RelayManager {
 				runtimeComplete = true;
 			} else {
 				// Not done this section
-				System.out.println("Runtime in progress... " + ((Duration.between(startTime, Instant.now()).getSeconds() / 60)- currentRuntimeSetting) + " minute(s) remain.");
+				System.out.println("Runtime in progress... " + (currentRuntimeSetting - (Duration.between(startTime, Instant.now()).getSeconds() / 60)) + " minute(s) remain.");
 				airCondRelay.setState(SimplePinState.OFF);
 			}
 		}
@@ -169,4 +169,8 @@ public class RelayManager {
 		}
 	}
 
+	public static void shutdown() {
+		airCondRelay.setState(SimplePinState.ON);
+	}
+	
 }

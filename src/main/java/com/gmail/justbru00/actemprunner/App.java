@@ -23,7 +23,8 @@ public class App {
 	                Thread.sleep(200);
 	                System.out.println("\nReceived shutdown request from system. (CTRL-C)");
 	                
-	                Reference.RUNNING = false;		    
+	                Reference.RUNNING = false;	
+	                RelayManager.shutdown();
 	                try {
 						Unirest.shutdown();
 					} catch (IOException e) {
