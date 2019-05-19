@@ -117,7 +117,7 @@ public class RelayManager {
 		// Get temperature as kelvin from api
 		// main.temp
 		
-		if ((Duration.between(lastWeatherUpdate, Instant.now()).getSeconds() / 60) > 12 || lastWeatherUpdate == null) {
+		if (lastWeatherUpdate == null || (Duration.between(lastWeatherUpdate, Instant.now()).getSeconds() / 60) > 12) {
 			HttpResponse<JsonNode> json;
 			BigDecimal big = new BigDecimal(-100);
 			try {
