@@ -65,24 +65,24 @@ public class RelayManager {
 			if ((Duration.between(startTime, Instant.now()).getSeconds() / 60) > currentOfftimeSetting) {
 				// Done with the offtime
 				System.out.println("Offtime Complete! Off for " + Duration.between(startTime, Instant.now()).getSeconds() / 60 + " minutes(s)");
-				airCondRelay.setState(SimplePinState.OFF);
+				airCondRelay.setState(SimplePinState.ON);
 				currentRuntimeSetting = -1;
 			} else {
 				// Not done this section
-				System.out.println("Offtime in progress... " + Duration.between(startTime, Instant.now()).getSeconds() / 60 + " minute(s) remain.");
-				airCondRelay.setState(SimplePinState.OFF);
+				System.out.println("Offtime in progress... " + ((Duration.between(startTime, Instant.now()).getSeconds() / 60)- currentOfftimeSetting) + " minute(s) remain.");
+				airCondRelay.setState(SimplePinState.ON);
 			}
 		} else {
 			// Runtime counting
 			if ((Duration.between(startTime, Instant.now()).getSeconds() / 60) > currentRuntimeSetting) {
 				// Done with the runtime
 				System.out.println("Runtime Complete! Ran for " + Duration.between(startTime, Instant.now()).getSeconds() / 60 + " minutes(s)");
-				airCondRelay.setState(SimplePinState.OFF);
+				airCondRelay.setState(SimplePinState.ON);
 				runtimeComplete = true;
 			} else {
 				// Not done this section
-				System.out.println("Runtime in progress... " + Duration.between(startTime, Instant.now()).getSeconds() / 60 + " minute(s) remain.");
-				airCondRelay.setState(SimplePinState.ON);
+				System.out.println("Runtime in progress... " + ((Duration.between(startTime, Instant.now()).getSeconds() / 60)- currentRuntimeSetting) + " minute(s) remain.");
+				airCondRelay.setState(SimplePinState.OFF);
 			}
 		}
 		
@@ -91,7 +91,7 @@ public class RelayManager {
 	}
 	
 	public static void init() {
-		airCondRelay.setState(SimplePinState.OFF);
+		airCondRelay.setState(SimplePinState.ON);
 		
 		// Read the config and fill in the setpoints
 		// TODO Actually read and save a config file.
@@ -132,6 +132,7 @@ public class RelayManager {
 				outdoorAirTemp = getTempInDegreesFarenheit(big);
 				System.out.println("Outdoor Air Temp is now: " + outdoorAirTemp);
 			}
+			lastWeatherUpdate = Instant.now();
 		}
 		
 	}

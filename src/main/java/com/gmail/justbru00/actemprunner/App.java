@@ -15,6 +15,7 @@ import com.mashape.unirest.http.Unirest;
 public class App {	
 	public static void main(String[] args) {
 		System.out.println("Starting ACTempRunner " + Reference.VERSION + "...");
+		System.out.println("This program uses the PI4J library.");
 		
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 	        public void run() {
