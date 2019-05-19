@@ -57,6 +57,8 @@ public class RelayManager {
 				currentOfftimeSetting = match.getOfftime();
 				runtimeComplete = false;
 			}
+			
+			System.out.println("Setpoints are now Runtime:" + currentRuntimeSetting + " Offtime: " + currentOfftimeSetting);
 		}
 
 		// Figure out the relay state
