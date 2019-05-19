@@ -1,5 +1,8 @@
 package com.gmail.justbru00.actemprunner;
 
+import java.io.IOException;
+
+import com.mashape.unirest.http.Unirest;
 import com.pi4j.io.gpio.RaspiPin;
 
 /**
@@ -10,11 +13,9 @@ import com.pi4j.io.gpio.RaspiPin;
  * @author Justin Brubaker
  *
  */
-public class App {
-	private static SimplePin airCondRelay = new SimplePin(RaspiPin.GPIO_07, "Air Conditioning Relay" , true);
-	
+public class App {	
 	public static void main(String[] args) {
-		
+		System.out.println("Starting ACTempRunner " + Reference.VERSION + "...");
 		
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 	        public void run() {
@@ -22,19 +23,28 @@ public class App {
 	                Thread.sleep(200);
 	                System.out.println("\nReceived shutdown request from system. (CTRL-C)");
 	                
-	                Reference.RUNNING = false;		                
+	                Reference.RUNNING = false;		    
+	                try {
+						Unirest.shutdown();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 	            } catch (InterruptedException e) {
 	                e.printStackTrace();
 	            }
 	        }
 	    });
 		
+		RelayManager.init();
+		RelayManager.updateOutdoorTemp();
+		
 		while (Reference.RUNNING) {		
 			
-			// Toggle the relay
+			RelayManager.updateRelayStatus();
+			RelayManager.updateOutdoorTemp();
 		
 		try {
-			Thread.sleep(50);
+			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

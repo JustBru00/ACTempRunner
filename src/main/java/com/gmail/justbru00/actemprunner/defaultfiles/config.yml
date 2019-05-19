@@ -1,0 +1,28 @@
+# ACTempRunner v1.0 by Justin Brubaker
+# Times are read in minutes.
+
+setpoints:
+  low_temp:
+    outdoor:
+      low: -30
+      high: 49
+    runtime: 0
+    offtime: 10
+  med_temp:
+    outdoor:
+      low: 50
+      high: 69
+    runtime: 10
+    offtime: 30  
+  high_temp:
+    outdoor: 
+      low: 70
+      high: 89
+    runtime: 20
+    offtime: 10
+  higher_temp:
+    outdoor: 
+      low: 90
+      high: 150
+    runtime: 20
+    offtime: 5   
