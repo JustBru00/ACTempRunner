@@ -20,7 +20,7 @@ public class RelayManager {
 	 * The current outdoor air temp as reported by OpenWeatherAPI This value will be
 	 * -1 if we failed to get the outdoor temp.
 	 */
-	private static int outdoorAirTemp = -1;
+	private static int outdoorAirTemp = -100;
 
 	private static Instant startTime = Instant.now();
 
@@ -40,7 +40,7 @@ public class RelayManager {
 		if (currentRuntimeSetting == -1) {
 			// Figure out next setpoint
 			System.out.println("Calculating next setpoint...");
-			if (outdoorAirTemp == -1) {
+			if (outdoorAirTemp == -100) {
 				currentRuntimeSetting = lowestSetpoint.getRuntime();
 				currentOfftimeSetting = lowestSetpoint.getOfftime();
 				runtimeComplete = false;
@@ -53,6 +53,11 @@ public class RelayManager {
 						match = ss;
 					}
 				}
+				
+				if (match == null) {
+					match = lowestSetpoint;
+				}
+				
 				currentRuntimeSetting = match.getRuntime();
 				currentOfftimeSetting = match.getOfftime();
 				runtimeComplete = false;
@@ -119,6 +124,7 @@ public class RelayManager {
 				lowest = ss;
 			}
 		}
+		lowestSetpoint = lowest;
 	}
 
 	public static void updateOutdoorTemp() {
@@ -134,7 +140,7 @@ public class RelayManager {
 						.asJson();
 				big = json.getBody().getObject().getJSONObject("main").getBigDecimal("temp");
 			} catch (UnirestException e) {
-				outdoorAirTemp = -1;
+				outdoorAirTemp = -100;
 				e.printStackTrace();
 			}
 
@@ -142,6 +148,12 @@ public class RelayManager {
 				outdoorAirTemp = getFahrenheit(big);
 				System.out.println("Outdoor Air Temp is now: " + outdoorAirTemp);
 			}
+			
+			if (outdoorAirTemp < 0) {
+				outdoorAirTemp = -100;
+				System.out.println("Failed to get a proper outdoor air temp.");
+			}
+			
 			lastWeatherUpdate = Instant.now();
 		}
 
