@@ -5,6 +5,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 
+import org.json.JSONException;
+
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
@@ -142,6 +144,9 @@ public class RelayManager {
 			} catch (UnirestException e) {
 				outdoorAirTemp = -100;
 				e.printStackTrace();
+			} catch (JSONException e2) {
+				outdoorAirTemp = -100;
+				e2.printStackTrace();
 			}
 
 			if (big != new BigDecimal(-100)) {
